@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="vi" >
+<head>
+	<meta charset="UTF-8">
+	<title>SQL Injection Detection</title>
+	<script src={{url_for('static', filename='./index.js')}}></script>
+  
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"><link rel="stylesheet" href={{url_for('static', filename='./style.css')}}>
+</head>
+
+<body>
+<div class="box-form">
+	<div class="left">
+		<div class="overlay">
+		<h1>Hello,</h1>
+		<h2>Thanks for using my application</h2>
+		<p>
+			Currently, security issues and system intrusions are in need of special attention because the information of the system and users is extremely important. The breach will have a huge impact on the system.
+		</p>
+		<p>
+			This is software that can assist you to check whether the SQL query content is safe or not.
+		</p>
+		</div>
+	</div>
+	
+	
+		<div class="right">
+		<h5>SQL Injection Detection</h5>
+		<form action="" method="post" onsubmit="Submit();return false;" id="sql_form">
+			<div class="inputs">
+				<input type="text" placeholder="Input SQL Query here!" id="sql_query">
+	
+				<br>
+				<!-- <div class="remember-me--forget-password">
+					<label>
+						<input type="checkbox" name="item" checked/>
+						<span class="text-checkbox">Using VotingClassifier?</span>
+					</label>
+				</div> -->
+					
+				<br>
+				<button>Check this SQL Query</button>
+			</div>
+		</form>
+		
+						
+	</div>
+	
+</div>
+<!-- partial -->
+  
+</body>
+</html>
