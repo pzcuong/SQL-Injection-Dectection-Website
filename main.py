@@ -4,14 +4,11 @@ from tensorflow import keras
 import tensorflow as tf
 import library
 
-import os
-os.environ["CUDA_VISIBLE_DEVICES"]="-1"    
-
 app = Flask(__name__, template_folder='public', static_folder='public')
 vectorizer = pickle.load(open('./model/vectorizer.pickle', 'rb'))
 rf_model = pickle.load(open('./model/rf_clf.pickle', 'rb'))
 
-model = keras.models.load_model('./model/CNN_Model')
+# model = keras.models.load_model('./model/CNN_Model')
 
 @app.route('/')
 def main_page():
@@ -24,9 +21,9 @@ def index():
   command_encoded = vectorizer.transform([command]).toarray()
 
   y_pred = rf_model.predict(command_encoded)
-  y_pred_cnn = model.predict(command_encoded)
+  # y_pred_cnn = model.predict(command_encoded)
 
-  print((y_pred_cnn), round(y_pred[0]))
+  # print((y_pred_cnn), round(y_pred[0]))
   
   if (y_pred[0] != 1):
     result_decode = "An toàn"
@@ -40,7 +37,7 @@ def index():
     "status_code": 200, 
     "sql_query": command, 
     "result": result_decode,
-    "cnn": y_pred_cnn
+    # "cnn": y_pred_cnn
   }
 
 if __name__ == '__main__':
