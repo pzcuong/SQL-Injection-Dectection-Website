@@ -5,10 +5,11 @@ import tensorflow as tf
 import library
 
 app = Flask(__name__, template_folder='public', static_folder='public')
+
 vectorizer = pickle.load(open('./model/vectorizer.pickle', 'rb'))
 rf_model = pickle.load(open('./model/rf_clf.pickle', 'rb'))
-
-# model = keras.models.load_model('./model/CNN_Model')
+vt_model = pickle.load(open('./model/vt_clf.pickle', 'rb')) # include svm, xgb
+cnn_model = keras.models.load_model('./model/CNN_Model')
 
 @app.route('/')
 def main_page():
@@ -20,13 +21,15 @@ def index():
   print(command)
   command_encoded = vectorizer.transform([command]).toarray()
 
-  y_pred = rf_model.predict(command_encoded)
-  # y_pred_cnn = model.predict(command_encoded).flatten()
-  # print(y_pred_cnn[0])
+  y_pred_rf = rf_model.predict(command_encoded)
+  y_pred_vt = vt_model.predict(command_encoded)
+  y_pred_cnn = cnn_model.predict(command_encoded).flatten()
+  y_pred_cnn = tf.math.round(y_pred_cnn[0])
 
-  # print((y_pred_cnn), round(y_pred[0]))
-  
-  if (y_pred[0] != 1):
+  result = y_pred_rf[0]*0.25 + y_pred_vt[0]*0.35 + y_pred_cnn[0]*0.4
+  result = tf.math.round(result)
+
+  if (result != 1):
     result_decode = "An toàn"
   else:
     result_decode = "Nguy hiểm"
@@ -38,7 +41,7 @@ def index():
     "status_code": 200, 
     "sql_query": command, 
     "result": result_decode,
-    # "cnn": str(y_pred_cnn[0])
+    "full_result": [y_pred_rf[0], y_pred_vt[0], y_pred_cnn[0]]
   }
 
 if __name__ == '__main__':
