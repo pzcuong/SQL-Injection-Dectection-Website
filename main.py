@@ -11,8 +11,7 @@ app = Flask(__name__, template_folder='public', static_folder='public')
 vectorizer = pickle.load(open('./model/vectorizer.pickle', 'rb'))
 rf_model = pickle.load(open('./model/rf_clf.pickle', 'rb'))
 
-with tf.device('/cpu:0'):
-  model = keras.models.load_model('./model/CNN_Model')
+model = keras.models.load_model('./model/CNN_Model')
 
 @app.route('/')
 def main_page():
@@ -27,9 +26,9 @@ def index():
   y_pred = rf_model.predict(command_encoded)
   y_pred_cnn = model.predict(command_encoded)
 
-  print((y_pred_cnn[0][0]), round(y_pred[0]))
+  print((y_pred_cnn), round(y_pred[0]))
   
-  if (y_pred_cnn[0][0] != 1):
+  if (y_pred[0] != 1):
     result_decode = "An toàn"
   else:
     result_decode = "Nguy hiểm"
@@ -40,7 +39,8 @@ def index():
   return {
     "status_code": 200, 
     "sql_query": command, 
-    "result": result_decode
+    "result": result_decode,
+    "cnn": y_pred_cnn
   }
 
 if __name__ == '__main__':
