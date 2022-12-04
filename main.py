@@ -21,7 +21,8 @@ def index():
   command_encoded = vectorizer.transform([command]).toarray()
 
   y_pred = rf_model.predict(command_encoded)
-  y_pred_cnn = model.predict(command_encoded)
+  y_pred_cnn = model.predict(command_encoded).flatten()
+  print(y_pred_cnn[0])
 
   # print((y_pred_cnn), round(y_pred[0]))
   
@@ -37,7 +38,7 @@ def index():
     "status_code": 200, 
     "sql_query": command, 
     "result": result_decode,
-    "cnn": y_pred_cnn
+    "cnn": str(y_pred_cnn[0])
   }
 
 if __name__ == '__main__':
