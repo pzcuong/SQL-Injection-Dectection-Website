@@ -20,17 +20,17 @@ def index():
   command_encoded = vectorizer.transform([command]).toarray()
 
   y_pred = rf_model.predict(command_encoded)
-  y_pred_cnn = model.predict(command_encoded)
+  # y_pred_cnn = model.predict(command_encoded)
 
-  print((y_pred_cnn[0][0][0]), round(y_pred[0]))
+  # print((y_pred_cnn[0][0][0]), round(y_pred[0]))
   
   if (y_pred[0] != 1):
     result_decode = "An toàn"
   else:
     result_decode = "Nguy hiểm"
 
-  data = [command, round(y_pred[0]), round(y_pred_cnn[0][0][0])]
-  library.write_csv_file('history.csv', data)
+  # data = [command, round(y_pred[0]), round(y_pred_cnn[0][0][0])]
+  # library.write_csv_file('history.csv', data)
 
   return {
     "status_code": 200, 
