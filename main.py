@@ -4,6 +4,9 @@ from tensorflow import keras
 import tensorflow as tf
 import library
 
+import os
+os.environ["CUDA_VISIBLE_DEVICES"]="-1"    
+
 app = Flask(__name__, template_folder='public', static_folder='public')
 vectorizer = pickle.load(open('./model/vectorizer.pickle', 'rb'))
 rf_model = pickle.load(open('./model/rf_clf.pickle', 'rb'))
