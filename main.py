@@ -1,13 +1,14 @@
 from flask import Flask, request, render_template
 import pickle
 from tensorflow import keras
+import tensorflow as tf
 import library
 
 app = Flask(__name__, template_folder='public', static_folder='public')
 vectorizer = pickle.load(open('./model/vectorizer.pickle', 'rb'))
 rf_model = pickle.load(open('./model/rf_clf.pickle', 'rb'))
 
-with tensorflow.device('/cpu:0'):
+with tf.device('/cpu:0'):
   model = keras.models.load_model('./model/CNN_Model')
 
 @app.route('/')
