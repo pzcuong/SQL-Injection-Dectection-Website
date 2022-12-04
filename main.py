@@ -1,13 +1,13 @@
 from flask import Flask, request, render_template
 import pickle
-# from tensorflow import keras
+from tensorflow import keras
 import library
 
 app = Flask(__name__, template_folder='public', static_folder='public')
 vectorizer = pickle.load(open('./model/vectorizer.pickle', 'rb'))
 rf_model = pickle.load(open('./model/rf_clf.pickle', 'rb'))
 
-# model = keras.models.load_model('./model/CNN_Model')
+model = keras.models.load_model('./model/CNN_Model')
 
 @app.route('/')
 def main_page():
@@ -20,11 +20,11 @@ def index():
   command_encoded = vectorizer.transform([command]).toarray()
 
   y_pred = rf_model.predict(command_encoded)
-  # y_pred_cnn = model.predict(command_encoded)
+  y_pred_cnn = model.predict(command_encoded)
 
-  # print((y_pred_cnn[0][0][0]), round(y_pred[0]))
+  print((y_pred_cnn[0][0]), round(y_pred[0]))
   
-  if (y_pred[0] != 1):
+  if (y_pred_cnn[0][0] != 1):
     result_decode = "An toàn"
   else:
     result_decode = "Nguy hiểm"
