@@ -7,7 +7,8 @@ app = Flask(__name__, template_folder='public', static_folder='public')
 vectorizer = pickle.load(open('./model/vectorizer.pickle', 'rb'))
 rf_model = pickle.load(open('./model/rf_clf.pickle', 'rb'))
 
-model = keras.models.load_model('./model/CNN_Model')
+with tensorflow.device('/cpu:0'):
+  model = keras.models.load_model('./model/CNN_Model')
 
 @app.route('/')
 def main_page():
